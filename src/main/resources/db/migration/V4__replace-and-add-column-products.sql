@@ -1,0 +1,8 @@
+ALTER TABLE users DROP COLUMN createdAt;
+ALTER TABLE users DROP COLUMN lastUpdateAt;
+
+ALTER TABLE users ADD COLUMN created_at DATE;
+ALTER TABLE users ADD COLUMN last_update_at DATE;
+
+ALTER TABLE users
+    ADD COLUMN role TEXT NOT NULL;
