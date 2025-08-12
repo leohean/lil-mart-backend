@@ -31,7 +31,6 @@ public class UserService{
 
         this.userRepository.save(newUser);
 
-
         return ResponseEntity.ok().build();
     }
 }

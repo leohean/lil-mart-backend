@@ -2,9 +2,11 @@ package leonardo.lil_mart.auth.controller;
 
 import jakarta.validation.Valid;
 import leonardo.lil_mart.auth.dto.LoginResponseDTO;
+import leonardo.lil_mart.auth.dto.RegisterMarketDTO;
 import leonardo.lil_mart.infra.service.TokenService;
 import leonardo.lil_mart.auth.dto.AuthenticationDTO;
 import leonardo.lil_mart.auth.dto.RegisterDTO;
+import leonardo.lil_mart.market.service.MarketService;
 import leonardo.lil_mart.user.model.User;
 import leonardo.lil_mart.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,9 @@ public class AuthenticationController {
     private UserService userService;
 
     @Autowired
+    private MarketService marketService;
+
+    @Autowired
     private TokenService tokenService;
 
     @PostMapping("/login")
@@ -41,6 +46,11 @@ public class AuthenticationController {
     @PostMapping("/register")
     public ResponseEntity register(@RequestBody @Valid RegisterDTO registerDTO){
         return ResponseEntity.ok().body(userService.register(registerDTO));
+    }
+
+    @PostMapping("/registermarket")
+    public ResponseEntity registerMarket(@RequestBody @Valid RegisterMarketDTO registerMarketDTO){
+        return ResponseEntity.ok().body(marketService.registerMarket(registerMarketDTO));
     }
 
 }
