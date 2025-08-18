@@ -5,6 +5,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import leonardo.lil_mart.infra.service.TokenService;
+import leonardo.lil_mart.market.repository.MarketRepository;
 import leonardo.lil_mart.user.repository.UserRepository;
 import org.springdoc.core.service.SecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,9 @@ public class SecurityFilter extends OncePerRequestFilter {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    MarketRepository marketRepository;
+
     public SecurityFilter(TokenService tokenService) {
         this.tokenService = tokenService;
     }
@@ -36,7 +40,9 @@ public class SecurityFilter extends OncePerRequestFilter {
 
         if (token != null) {
             var email = tokenService.validateToken((String) token);
+
             UserDetails user = userRepository.findByEmail(email);
+            if (user == null) { user = marketRepository.findByEmail(email); }
 
             var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
 
