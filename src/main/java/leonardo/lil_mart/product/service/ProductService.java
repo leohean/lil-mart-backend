@@ -5,6 +5,9 @@ import leonardo.lil_mart.product.dto.ProductDTO;
 import leonardo.lil_mart.product.model.Product;
 import leonardo.lil_mart.product.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,11 +15,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
-import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
@@ -42,6 +44,22 @@ public class ProductService {
         return ResponseEntity.ok(productRepository.save(newProduct));
     }
 
+    public List<ProductDTO> getProductsByName(String name){
+        List<Product> products = productRepository.searchByName(name);
+
+        return products.stream().map(product -> {
+
+            return new ProductDTO(
+                    product.getId(),
+                    product.getName(),
+                    product.getCategory(),
+                    product.getDescription(),
+                    product.getUnitMeasurement(),
+                    product.getStockQuantity()
+            );
+        }).collect(Collectors.toList());
+    }
+
     public ResponseEntity uploadImage(Integer id, MultipartFile file) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
@@ -58,12 +76,15 @@ public class ProductService {
         return ResponseEntity.ok().build();
     }
 
-    public byte[] getProductImage(Integer id) {
+    public ResponseEntity<Resource> getImage(Integer id) {
         Product product = this.productRepository.getById(id);
-        return product.getImage();
-    }
 
-    public List<Product> getProductsByName(String name){
-        return productRepository.searchByName(name);
+        byte[] image = product.getImage();
+
+        ByteArrayResource resource = new ByteArrayResource(image);
+        return ResponseEntity.ok()
+                .contentLength(image.length)
+                .contentType(MediaType.IMAGE_JPEG)
+                .body(resource);
     }
 }

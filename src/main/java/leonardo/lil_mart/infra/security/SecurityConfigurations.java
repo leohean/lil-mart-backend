@@ -34,6 +34,7 @@ public class SecurityConfigurations {
                             .requestMatchers(HttpMethod.GET,"/product/**").permitAll()
                             .requestMatchers(HttpMethod.POST,"/product").hasRole("MARKET")
                             .requestMatchers(HttpMethod.POST,"/product/*/image").hasRole("MARKET")
+                            .requestMatchers(HttpMethod.GET,"/product/*/image").permitAll()
                             .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)

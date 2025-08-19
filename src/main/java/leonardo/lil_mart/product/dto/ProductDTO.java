@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.time.LocalDateTime;
 
 public record ProductDTO(
+        Integer id,
         String name,
         String category,
         String description,
