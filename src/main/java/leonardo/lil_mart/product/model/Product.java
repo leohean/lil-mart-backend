@@ -31,7 +31,7 @@ public class Product {
 
     @ManyToOne
     @JoinColumn(name = "id_market")
-    private Market idMarket;
+    private Market market;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -39,13 +39,13 @@ public class Product {
     @Column(name = "last_update_at")
     private LocalDateTime lastUpdateAt;
 
-    public Product(String name, String category, String description, String unitMeasurement, Double stockQuantity, Market idMarket, LocalDateTime createdAt, LocalDateTime lastUpdateAt) {
+    public Product(String name, String category, String description, String unitMeasurement, Double stockQuantity, Market market, LocalDateTime createdAt, LocalDateTime lastUpdateAt) {
         this.name = name;
         this.category = category;
         this.description = description;
         this.unitMeasurement = unitMeasurement;
         this.stockQuantity = stockQuantity;
-        this.idMarket = idMarket;
+        this.market = market;
         this.createdAt = createdAt;
         this.lastUpdateAt = lastUpdateAt;
     }

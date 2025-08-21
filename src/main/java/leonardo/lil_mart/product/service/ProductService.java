@@ -2,11 +2,14 @@ package leonardo.lil_mart.product.service;
 
 import leonardo.lil_mart.market.model.Market;
 import leonardo.lil_mart.product.dto.ProductDTO;
+import leonardo.lil_mart.product.dto.ProductDTOMapper;
 import leonardo.lil_mart.product.model.Product;
 import leonardo.lil_mart.product.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -23,7 +26,10 @@ import java.util.stream.Collectors;
 @Service
 public class ProductService {
     @Autowired
-    ProductRepository productRepository;
+    private ProductRepository productRepository;
+
+    @Autowired
+    private ProductDTOMapper productDTOMapper;
 
     public ResponseEntity createProduct(ProductDTO productDTO) {
 
@@ -60,6 +66,10 @@ public class ProductService {
         }).collect(Collectors.toList());
     }
 
+    public Page<ProductDTO> findAllProductsByMarket(Market market, Pageable pageable){
+        return productRepository.findAllByMarket(market, pageable).map(productDTOMapper);
+    }
+
     public ResponseEntity uploadImage(Integer id, MultipartFile file) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
@@ -80,7 +90,6 @@ public class ProductService {
         Product product = this.productRepository.getById(id);
 
         byte[] image = product.getImage();
-
         ByteArrayResource resource = new ByteArrayResource(image);
         return ResponseEntity.ok()
                 .contentLength(image.length)

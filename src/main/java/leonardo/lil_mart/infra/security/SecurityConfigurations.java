@@ -31,10 +31,13 @@ public class SecurityConfigurations {
                             .requestMatchers(HttpMethod.POST,"/auth/login").permitAll()
                             .requestMatchers(HttpMethod.POST,"/auth/register").permitAll()
                             .requestMatchers(HttpMethod.POST,"/auth/registermarket").permitAll()
+
+                            .requestMatchers(HttpMethod.GET,"market/{id}/products").permitAll()
+
                             .requestMatchers(HttpMethod.GET,"/product/**").permitAll()
                             .requestMatchers(HttpMethod.POST,"/product").hasRole("MARKET")
                             .requestMatchers(HttpMethod.POST,"/product/*/image").hasRole("MARKET")
-                            .requestMatchers(HttpMethod.GET,"/product/*/image").permitAll()
+                            .requestMatchers(HttpMethod.GET,"/product/*/image").hasRole("MARKET")
                             .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
