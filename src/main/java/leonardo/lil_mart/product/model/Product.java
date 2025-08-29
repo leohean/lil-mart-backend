@@ -13,8 +13,6 @@ import java.time.LocalDateTime;
 @Table(name="products")
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,8 +20,12 @@ public class Product {
     private String name;
     private String category;
     private String description;
+    private Double price;
     private String unitMeasurement;
     private Double stockQuantity;
+
+    @Column(name = "is_active")
+    private Boolean isActive;
 
     @Column(name = "image")
     @Basic(fetch = FetchType.LAZY)
@@ -39,14 +41,6 @@ public class Product {
     @Column(name = "last_update_at")
     private LocalDateTime lastUpdateAt;
 
-    public Product(String name, String category, String description, String unitMeasurement, Double stockQuantity, Market market, LocalDateTime createdAt, LocalDateTime lastUpdateAt) {
-        this.name = name;
-        this.category = category;
-        this.description = description;
-        this.unitMeasurement = unitMeasurement;
-        this.stockQuantity = stockQuantity;
-        this.market = market;
-        this.createdAt = createdAt;
-        this.lastUpdateAt = lastUpdateAt;
-    }
+    protected Product() {}
+
 }

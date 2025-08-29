@@ -11,8 +11,8 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface ProductRepository extends JpaRepository<Product, Integer> {
-    @Query("SELECT p FROM Product p WHERE LOWER(p.name) LIKE LOWER(CONCAT('%', :name, '%'))")
+    @Query("SELECT p FROM Product p WHERE LOWER(p.name) LIKE LOWER(CONCAT('%', :name, '%')) AND p.isActive = true")
     List<Product> searchByName(@Param("name") String name);
 
-    public Page<Product> findAllByMarket(Market market, Pageable page);
+    public Page<Product> findAllByMarketAndIsActiveTrue(Market market, Pageable page);
 }
