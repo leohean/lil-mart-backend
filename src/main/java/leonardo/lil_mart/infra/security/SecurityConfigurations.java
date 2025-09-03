@@ -4,10 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -32,12 +34,20 @@ public class SecurityConfigurations {
                             .requestMatchers(HttpMethod.POST,"/auth/register").permitAll()
                             .requestMatchers(HttpMethod.POST,"/auth/registermarket").permitAll()
 
-                            .requestMatchers(HttpMethod.GET,"market/{id}/products").permitAll()
+                            .requestMatchers(HttpMethod.GET,"/user/*/shoppingcart").hasRole("MARKET")
 
-                            .requestMatchers(HttpMethod.GET,"/product/**").permitAll()
+                            .requestMatchers(HttpMethod.POST,"/shoppingcart").hasRole("MARKET")
+                            .requestMatchers(HttpMethod.DELETE,"/shoppingcart/*").hasRole("MARKET")
+
+                            .requestMatchers(HttpMethod.GET,"market/{id}/products").hasRole("MARKET")
+
                             .requestMatchers(HttpMethod.POST,"/product").hasRole("MARKET")
-                            .requestMatchers(HttpMethod.POST,"/product/*/image").hasRole("MARKET")
-                            .requestMatchers(HttpMethod.GET,"/product/*/image").hasRole("MARKET")
+                            .requestMatchers(HttpMethod.POST,"/product/**").hasRole("MARKET")
+                            .requestMatchers(HttpMethod.GET,"/product/**").permitAll()
+                            .requestMatchers(HttpMethod.GET,"/product/*/image").permitAll()
+                            .requestMatchers(HttpMethod.PUT, "/product/").hasRole("MARKET")
+
+
                             .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
@@ -52,5 +62,9 @@ public class SecurityConfigurations {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean public WebSecurityCustomizer webSecurityCustomizer() {
+        return web -> web.ignoring().requestMatchers( "/swagger-ui/**", "/v3/api-docs/**" );
     }
 }
