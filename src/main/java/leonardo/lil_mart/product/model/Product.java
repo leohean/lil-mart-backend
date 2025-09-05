@@ -28,8 +28,7 @@ public class Product {
     private Boolean isActive;
 
     @Column(name = "image")
-    @Basic(fetch = FetchType.LAZY)
-    private byte[] image;
+    private String image;
 
     @ManyToOne
     @JoinColumn(name = "id_market")

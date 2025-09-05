@@ -50,7 +50,7 @@ public class ProductBuilder {
         return this;
     }
 
-    public ProductBuilder image(byte[] image){
+    public ProductBuilder image(String image){
         this.product.setImage(image);
         return this;
     }

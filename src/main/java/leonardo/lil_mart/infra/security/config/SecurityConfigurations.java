@@ -1,10 +1,9 @@
-package leonardo.lil_mart.infra.security;
+package leonardo.lil_mart.infra.security.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -42,7 +41,7 @@ public class SecurityConfigurations {
                             .requestMatchers(HttpMethod.GET,"market/{id}/products").hasRole("MARKET")
 
                             .requestMatchers(HttpMethod.POST,"/product").hasRole("MARKET")
-                            .requestMatchers(HttpMethod.POST,"/product/**").hasRole("MARKET")
+                            .requestMatchers(HttpMethod.POST,"/product/**").permitAll()
                             .requestMatchers(HttpMethod.GET,"/product/**").permitAll()
                             .requestMatchers(HttpMethod.GET,"/product/*/image").permitAll()
                             .requestMatchers(HttpMethod.PUT, "/product/").hasRole("MARKET")

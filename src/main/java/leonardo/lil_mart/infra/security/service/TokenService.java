@@ -1,4 +1,4 @@
-package leonardo.lil_mart.infra.service;
+package leonardo.lil_mart.infra.security.service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -10,7 +10,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import javax.crypto.Mac;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;

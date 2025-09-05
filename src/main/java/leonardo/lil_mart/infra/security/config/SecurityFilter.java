@@ -1,15 +1,13 @@
-package leonardo.lil_mart.infra.security;
+package leonardo.lil_mart.infra.security.config;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import leonardo.lil_mart.infra.service.TokenService;
+import leonardo.lil_mart.infra.security.service.TokenService;
 import leonardo.lil_mart.market.repository.MarketRepository;
 import leonardo.lil_mart.user.repository.UserRepository;
-import org.springdoc.core.service.SecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;

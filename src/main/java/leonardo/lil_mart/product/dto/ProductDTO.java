@@ -7,6 +7,7 @@ public record ProductDTO(
         String description,
         Double price,
         String unitMeasurement,
+        String image,
         Double stockQuantity
 ) {
 }

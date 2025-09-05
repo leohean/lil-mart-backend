@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import leonardo.lil_mart.auth.dto.LoginResponseDTO;
 import leonardo.lil_mart.auth.dto.RegisterMarketDTO;
-import leonardo.lil_mart.infra.service.TokenService;
+import leonardo.lil_mart.infra.security.service.TokenService;
 import leonardo.lil_mart.auth.dto.AuthenticationDTO;
 import leonardo.lil_mart.auth.dto.RegisterDTO;
 import leonardo.lil_mart.market.service.MarketService;

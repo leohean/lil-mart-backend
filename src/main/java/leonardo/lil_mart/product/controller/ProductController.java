@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -25,8 +26,14 @@ public class ProductController {
 
     @Operation(description = "Faz o upload da imagem de um novo produto criado.")
     @PostMapping(value = "{id}/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity createImageProduct(@PathVariable Integer id, @RequestParam("image") MultipartFile image) {
-        return ResponseEntity.ok(productService.createImageProduct(id, image));
+    public ResponseEntity uploadImage(@PathVariable Integer id, @RequestParam("image") MultipartFile image) {
+        try{
+            productService.uploadImage(id, image);
+        }catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return ResponseEntity.ok().build();
     }
 
     @Operation(description = "Pesquisa todos os produtos ativos que começam pela string informada.")
@@ -35,13 +42,7 @@ public class ProductController {
         return ResponseEntity.ok().body(productService.getProductsByName(name));
     }
 
-    @Operation(description = "Pega a image de um produto.")
-    @GetMapping("/{id}/image")
-    public ResponseEntity getImageProduct(@PathVariable Integer id){
-        return productService.getImageProduct(id);
-    }
-
-    @Operation(description = "Atualiza um produto exitesnte.")
+    @Operation(description = "Atualiza um produto existente.")
     @PutMapping("{id}")
     public ResponseEntity updateProduct(@PathVariable Integer id, @RequestBody ProductDTO productDTO) {
         return ResponseEntity.ok().body(productService.updateProduct(id, productDTO));

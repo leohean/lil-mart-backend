@@ -1,4 +1,4 @@
-package leonardo.lil_mart.infra.security;
+package leonardo.lil_mart.infra.security.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
