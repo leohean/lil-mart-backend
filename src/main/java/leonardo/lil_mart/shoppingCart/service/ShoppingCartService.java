@@ -36,13 +36,21 @@ public class ShoppingCartService {
             User existingUser = foundUser.get();
             Product existingProduct = foundProduct.get();
 
-            ShoppingCart newShoppingCart = new ShoppingCart();
+            Double stockQuantity = existingProduct.getStockQuantity();
+            stockQuantity = stockQuantity - shoppingCartItemDTO.productQuantity();
+            System.out.println("aaaaaaaaaaaaaaaaaaa"+stockQuantity);
 
+
+            existingProduct.setStockQuantity(stockQuantity);
+            productRepository.save(existingProduct);
+
+            ShoppingCart newShoppingCart = new ShoppingCart();
             newShoppingCart.setUser(existingUser);
             newShoppingCart.setProduct(existingProduct);
             newShoppingCart.setProductQuantity(shoppingCartItemDTO.productQuantity());
             newShoppingCart.setCreatedAt(LocalDateTime.now());
             newShoppingCart.setLastUpdateAt(LocalDateTime.now());
+
             return shoppingCartRepository.save(newShoppingCart);
         }
 

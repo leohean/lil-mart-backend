@@ -48,9 +48,6 @@ public class ProductService {
     @Autowired
     private S3Client s3Client;
 
-    @Autowired
-    private S3Presigner s3Presigner;
-
     public ResponseEntity createProduct(ProductDTO productDTO) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Market market = (Market)authentication.getPrincipal();
@@ -112,6 +109,7 @@ public class ProductService {
             existingProduct.setCategory(productDTO.category());
             existingProduct.setUnitMeasurement(productDTO.unitMeasurement());
             existingProduct.setStockQuantity(productDTO.stockQuantity());
+            existingProduct.setPrice(productDTO.price());
             existingProduct.setMarket(market);
             existingProduct.setCreatedAt(LocalDateTime.now());
             existingProduct.setLastUpdateAt(LocalDateTime.now());
