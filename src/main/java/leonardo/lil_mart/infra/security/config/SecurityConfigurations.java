@@ -29,25 +29,29 @@ public class SecurityConfigurations {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
+                            /* Requisições */
                             .requestMatchers(HttpMethod.POST,"/auth/login").permitAll()
+                            .requestMatchers(HttpMethod.GET,"/auth/getlogin").permitAll()
                             .requestMatchers(HttpMethod.POST,"/auth/register").permitAll()
                             .requestMatchers(HttpMethod.POST,"/auth/registermarket").permitAll()
+                            .requestMatchers(HttpMethod.POST,"/auth/logout").permitAll()
 
                             .requestMatchers(HttpMethod.GET,"/user/*/shoppingcart").hasRole("MARKET")
 
-                            .requestMatchers(HttpMethod.POST,"/shoppingcart").hasRole("MARKET")
+                            .requestMatchers(HttpMethod.POST,"/shoppingcart").hasRole("USER")
                             .requestMatchers(HttpMethod.DELETE,"/shoppingcart/*").hasRole("MARKET")
 
                             .requestMatchers(HttpMethod.GET,"market/{id}/products").hasRole("MARKET")
 
                             .requestMatchers(HttpMethod.POST,"/product").hasRole("MARKET")
-                            .requestMatchers(HttpMethod.POST,"/product/**").permitAll()
-                            .requestMatchers(HttpMethod.GET,"/product/**").permitAll()
-                            .requestMatchers(HttpMethod.GET,"/product/*/image").permitAll()
-                            .requestMatchers(HttpMethod.PUT, "/product/").hasRole("MARKET")
+                            .requestMatchers(HttpMethod.POST,"/product/*/image").hasRole("MARKET")
 
+                            .requestMatchers(HttpMethod.POST,"/product/{id}/inactivateproduct").hasRole("MARKET")
+                            .requestMatchers(HttpMethod.GET,"/product/{name}").permitAll()
+                            .requestMatchers(HttpMethod.GET,"/product/{id}/image").permitAll()
+                            .requestMatchers(HttpMethod.PUT, "/product/{id}").hasRole("MARKET")
 
-                            .anyRequest().authenticated()
+                        .requestMatchers("/markethome").hasRole("MARKET")
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
