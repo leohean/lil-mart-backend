@@ -16,6 +16,6 @@ public class UserController {
     @Operation(description = "Pega todos os itens do carrinho de um usuário")
     @GetMapping("{id}/shoppingcart")
     public ResponseEntity getShoppingCartItems(@PathVariable("id") Integer idUser, Pageable page) {
-        return ResponseEntity.ok().body(shoppingCartService.getShoppingCartItems(idUser, page));
+        return ResponseEntity.ok().body(shoppingCartService.getAllShoppingCartItemsByUser(idUser, page));
     }
 }

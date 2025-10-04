@@ -36,7 +36,7 @@ public class SecurityConfigurations {
                             .requestMatchers(HttpMethod.POST,"/auth/registermarket").permitAll()
                             .requestMatchers(HttpMethod.POST,"/auth/logout").permitAll()
 
-                            .requestMatchers(HttpMethod.GET,"/user/*/shoppingcart").hasRole("MARKET")
+                            .requestMatchers(HttpMethod.GET,"/user/{id}/shoppingcart").permitAll()
 
                             .requestMatchers(HttpMethod.POST,"/shoppingcart").hasRole("USER")
                             .requestMatchers(HttpMethod.DELETE,"/shoppingcart/*").hasRole("MARKET")

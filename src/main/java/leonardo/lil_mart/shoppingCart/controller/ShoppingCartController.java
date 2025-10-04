@@ -19,6 +19,11 @@ public class ShoppingCartController {
         return ResponseEntity.ok().body(shoppingCartService.createShoppingCartItem(shoppingCartItemDTO));
     }
 
+    @PutMapping("{id}")
+    public ResponseEntity updateShoppingCartItem(@PathVariable("id") Integer id, @RequestBody ShoppingCartItemDTO shoppingCartItemDTO) {
+        return ResponseEntity.ok().body(shoppingCartService.updateShoppingCartItem(id, shoppingCartItemDTO));
+    }
+
     @Operation(description = "Deleta um item do carrinho do usuário.")
     @DeleteMapping("{id}")
     public ResponseEntity deleteShoppingCartItem(@PathVariable("id") Integer id) {
