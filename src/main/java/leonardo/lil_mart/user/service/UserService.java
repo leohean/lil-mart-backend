@@ -3,6 +3,7 @@ package leonardo.lil_mart.user.service;
 import leonardo.lil_mart.auth.dto.RegisterDTO;
 import leonardo.lil_mart.user.model.User;
 import leonardo.lil_mart.user.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class UserService{
     @Autowired
     UserRepository userRepository;
@@ -30,6 +32,7 @@ public class UserService{
                             LocalDateTime.now());
 
         this.userRepository.save(newUser);
+        log.info("User"+ registerDTO + " created successfully!");
 
         return ResponseEntity.ok().build();
     }
